@@ -1,17 +1,17 @@
-from django.contrib.auth.models import AbstractUser, UserManager
+import uuid
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import AbstractUser
+from datetime import datetime
 
-# def CustomUserManager(UserManager):
-#     def _create_user(self, email, password, **extra_fields):
-#         if not email:
-#             raise ValueError("Didn't provide valid e-mail")
-#
-#
-# class CustomUser(AbstractUser):
-#     email = models.EmailField(unique=True)
-#     bio = models.TextField(blank=True, null=True)
-#     birth_date = models.DateField(blank=True, null=True)
-#     profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)  # Optional profile picture
-#
-#     def __str__(self):
-#         return self.username  # Display the username in string representation
+
+class CustomUser(AbstractUser):
+    first_name = models.CharField(max_length=150, blank=True)
+    last_name = models.CharField(max_length=150, blank=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    bio = models.TextField(blank=True, null=True)
+    class_year = models.IntegerField(null=True, blank=True, default=datetime.now().year)
+    phone_number = PhoneNumberField(blank=True, null=True)
+    create_date = models.DateTimeField(_("Created at"), auto_now_add=True)
+    update_date = models.DateTimeField(_("Updated at"), auto_now=True)
