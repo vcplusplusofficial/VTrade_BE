@@ -70,8 +70,15 @@ class Product(models.Model):
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
+    class Meta:
+        permissions = [
+            ("can_update_price", "Can update product price"),
+            ("can_view_stock", "Can view stock levels"),
+        ]
+
     def __str__(self):
         return self.title
+
 
 
 class ProductImage(models.Model):

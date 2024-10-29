@@ -2,7 +2,7 @@ import uuid
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group, Permission
 from datetime import datetime
 
 
@@ -15,3 +15,23 @@ class CustomUser(AbstractUser):
     phone_number = PhoneNumberField(blank=True, null=True)
     create_date = models.DateTimeField(_("Created at"), auto_now_add=True)
     update_date = models.DateTimeField(_("Updated at"), auto_now=True)
+    role = models.CharField(
+        max_length=50,
+        choices=[
+            ('ADMIN', 'Admin'),
+            ('SELLER', 'Seller'),
+            ('CUSTOMER', 'Customer')
+        ],
+        default='CUSTOMER'
+    )
+
+    def __str__(self):
+        return f"{self.username} ({self.role})"
+
+    @property
+    def is_admin(self):
+        return self.role == 'ADMIN'
+
+    @property
+    def is_seller(self):
+        return self.role == 'SELLER'
