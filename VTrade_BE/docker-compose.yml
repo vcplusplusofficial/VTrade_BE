@@ -1,0 +1,44 @@
+# docker-compose.yml
+services:
+  web:
+    image: vtrade_stack_web:latest
+    entrypoint: ["/code/entrypoint.sh"]
+    build:
+      context: VTrade_BE
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./VTrade_BE:/code
+    environment:
+      DB_NAME: vtrade
+      DB_USER: postgres
+      DB_PORT: 5432
+      DB_HOST: db
+    secrets:
+      - db_password
+    depends_on:
+      - db
+    networks:
+      - vtrade-net
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: vtrade
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_password
+    ports:
+      - "5433:5432"
+    networks:
+      - vtrade-net
+
+secrets:
+  db_password:
+    external: true
+
+networks:
+  vtrade-net:
+    driver: overlay

@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
+
 SITE_ID = 2
 
 LOGIN_REDIRECT_URL = "/"

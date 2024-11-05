@@ -1,5 +1,0 @@
-.env
-VTrade_BE/.env
-*.pyc
-__pycache__/
-db.sqlite3
