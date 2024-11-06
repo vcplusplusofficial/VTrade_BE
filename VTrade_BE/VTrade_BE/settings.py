@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
-from dotenv import load_dotenv
 
 
 SITE_ID = 2
@@ -148,11 +147,11 @@ SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "SCOPE": ["profile", "email"],
         "APP": {
-            "client_id": os.environ["CLIENT_ID"],
-            "secret": os.environ["CLIENT_SECRET"],
+            "client_id": os.getenv("CLIENT_ID"),
+            "secret": os.getenv("CLIENT_SECRET"),
         },
         "AUTH_PARAMS": {
-            "access_type": "online",
+            "access_type": "offline",
         },
         "OAUTH_PKCE_ENABLED": True,
     }

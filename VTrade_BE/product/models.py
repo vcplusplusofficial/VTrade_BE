@@ -2,8 +2,10 @@ import uuid
 from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
+from django.db import IntegrityError
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
+
 
 class Product(models.Model):
     STATUS_NOT_LISTED = 0
@@ -67,9 +69,13 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            base_slug = slugify(self.title)
+            self.slug = base_slug
+            counter = 1
+            while Product.objects.filter(slug=self.slug).exists():
+                self.slug = f"{base_slug}-{counter}"
+                counter += 1
         super().save(*args, **kwargs)
-
     class Meta:
         permissions = [
             ("can_update_price", "Can update product price"),
@@ -80,7 +86,8 @@ class Product(models.Model):
         return self.title
 
 
-
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(upload_to='product_images/')
+    # image = models.ImageField(upload_to='product_images/')
+    alt_text = models.CharField(max_length=255, blank=True, null=True, help_text="Alternative text for the image")
+

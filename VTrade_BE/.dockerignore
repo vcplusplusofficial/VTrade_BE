@@ -1,3 +1,32 @@
-venv/
-.git/
+# Ignore Python cache and virtual environment files
+__pycache__/
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+*.egg
+*.db
+
+# Ignore local environment files
 .env
+venv/
+.env.*
+
+# Ignore static and media files if they’re handled elsewhere
+/static/
+media/
+
+# Ignore Docker and Git files
+.dockerignore
+Dockerfile
+docker-compose.yml
+.git
+.gitignore
+
+# Ignore IDE/editor configuration files
+.vscode/
+.idea/
+*.swp
+
+# Ignore logs
+*.log
