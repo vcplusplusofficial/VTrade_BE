@@ -13,6 +13,9 @@ class CustomUser(AbstractUser):
     Uses UUID for primary key, includes bio, class year, phone number,
     and role for different user types.
     """
+    ROLE_ADMIN = 'ADMIN'
+    ROLE_SELLER = 'SELLER'
+    ROLE_CUSTOMER = 'CUSTOMER'
 
     # Additional fields for user profile
     first_name = models.CharField(max_length=150, blank=True)
@@ -25,10 +28,6 @@ class CustomUser(AbstractUser):
     update_date = models.DateTimeField(_("Updated at"), auto_now=True)
 
     # User role field with choices
-    ROLE_ADMIN = 'ADMIN'
-    ROLE_SELLER = 'SELLER'
-    ROLE_CUSTOMER = 'CUSTOMER'
-
     role = models.CharField(
         max_length=50,
         choices=[
