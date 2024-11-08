@@ -6,4 +6,4 @@ class AuthuserConfig(AppConfig):
     name = "authuser"
 
     def ready(self):
-        import authuser.signals
+        import authuser.adapters

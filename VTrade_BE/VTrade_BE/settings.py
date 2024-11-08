@@ -53,6 +53,7 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = "authuser.CustomUser"
+SOCIALACCOUNT_ADAPTER = 'authuser.adapters.CustomSocialAccountAdapter'
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
