@@ -5,6 +5,8 @@ FROM python:3.11.5-slim-bullseye
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
+RUN apt-get update && apt-get install -y netcat && apt-get clean
+
 # Set work directory
 WORKDIR /app
 
@@ -16,6 +18,11 @@ RUN pip install -r requirements.txt
 COPY . .
 
 EXPOSE 8000
+
+COPY ./entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Command to run your application
 #letting docker comopse handle this
