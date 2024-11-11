@@ -5,7 +5,6 @@ set -e
 
 # Wait until PostgreSQL is ready
 echo "Waiting for PostgreSQL to start..."
-which nc || echo "nc not found"
 while ! nc -z "$DB_HOST" "$DB_PORT"; do
   echo "PostgreSQL not yet available, retrying in 0.5 seconds..."
   sleep 0.5
