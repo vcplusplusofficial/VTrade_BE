@@ -5,13 +5,14 @@ FROM python:3.11.5-slim-bullseye
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-RUN apt-get update && apt-get install -y netcat && apt-get clean
+# Install system dependencies
+RUN apt-get update && apt-get install -y libpq-dev gcc netcat
 
-# Set work directory
+# Set the working directory
 WORKDIR /app
 
-# Copy requirements file and install dependencies
-COPY ./requirements.txt .
+# Copy the requirements file and install Python dependencies
+COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Copy the entire project into the container
@@ -23,7 +24,3 @@ COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
-
-# Command to run your application
-#letting docker comopse handle this
-#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

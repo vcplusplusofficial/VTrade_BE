@@ -6,23 +6,20 @@ from rest_framework import permissions
 from rest_framework.exceptions import NotFound
 from rest_framework.views import APIView
 from .models import CustomUser
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
 from .serializers import CustomUserSerializer
 
 
 class UserListCreateView(generics.ListCreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
-    permission_classes = [permissions.AllowAny]
-
-    def delete(self, request, *args, **kwargs):
-        CustomUser.objects.all().delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    permission_classes = [AllowAny]
 
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
     lookup_field = 'id'
 
     def get_object(self):
@@ -34,10 +31,11 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 class UserProfileView(generics.RetrieveUpdateAPIView):
     serializer_class = CustomUserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get_object(self):
         return self.request.user
+
 
 class CustomUserList(APIView):
     def get(self, request, format=None):
@@ -50,6 +48,7 @@ class CustomUserList(APIView):
 
         serializer = CustomUserSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 def login_view(request):
     # Example content for a login view

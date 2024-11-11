@@ -9,4 +9,4 @@ class CustomUserSerializer(serializers.ModelSerializer):
             'id', 'username', 'first_name', 'last_name', 'bio', 'class_year',
             'phone_number', 'create_date', 'update_date', 'role', 'slug'
         ]
-        read_only_fields = ['slug', 'create_date', 'update_date']
+        read_only_fields = ['id', 'slug', 'create_date', 'update_date']
