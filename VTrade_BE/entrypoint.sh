@@ -16,9 +16,5 @@ echo "Applying database migrations..."
 python manage.py makemigrations
 python manage.py migrate
 
-# Collect static files (optional, uncomment if needed)
-# echo "Collecting static files..."
-# python manage.py collectstatic --noinput
-
 # Execute the command passed to the container (in this case, Django's runserver command from docker-compose.yml)
 exec "$@"

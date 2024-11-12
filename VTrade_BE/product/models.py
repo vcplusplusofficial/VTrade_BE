@@ -76,6 +76,7 @@ class Product(models.Model):
                 self.slug = f"{base_slug}-{counter}"
                 counter += 1
         super().save(*args, **kwargs)
+
     class Meta:
         permissions = [
             ("can_update_price", "Can update product price"),
@@ -90,4 +91,3 @@ class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
     # image = models.ImageField(upload_to='product_images/')
     alt_text = models.CharField(max_length=255, blank=True, null=True, help_text="Alternative text for the image")
-
